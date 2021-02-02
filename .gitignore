@@ -1,0 +1,12 @@
+# Godot-specific ignores
+.import/
+
+# Imported translations (automatically generated from CSV files)
+*.translation
+
+# Mono-specific ignores
+.mono/
+data_*/
+
+# MDK game data (not legally redistributable)
+/mdk/
