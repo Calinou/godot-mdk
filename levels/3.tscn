@@ -1,3 +1,68 @@
-[gd_scene format=2]
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://actors/player.gd" type="Script" id=1]
+
+[sub_resource type="BoxShape" id=1]
+extents = Vector3( 1, 1.6, 1 )
+
+[sub_resource type="CubeMesh" id=4]
+size = Vector3( 2, 3.2, 2 )
+
+[sub_resource type="SpatialMaterial" id=5]
+albedo_color = Color( 1, 0.870588, 0.368627, 1 )
+
+[sub_resource type="CubeMesh" id=2]
+size = Vector3( 128, 2, 128 )
+
+[sub_resource type="OpenSimplexNoise" id=6]
+octaves = 9
+persistence = 1.0
+lacunarity = 2.5
+
+[sub_resource type="NoiseTexture" id=7]
+width = 256
+height = 256
+seamless = true
+noise = SubResource( 6 )
+
+[sub_resource type="SpatialMaterial" id=8]
+albedo_texture = SubResource( 7 )
+uv1_scale = Vector3( 0.062, 0.062, 0.062 )
+uv1_triplanar = true
+
+[sub_resource type="BoxShape" id=3]
+extents = Vector3( 64, 1, 64 )
 
 [node name="Spatial" type="Spatial"]
+
+[node name="KinematicBody" type="KinematicBody" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 0 )
+script = ExtResource( 1 )
+
+[node name="CollisionShape" type="CollisionShape" parent="KinematicBody"]
+shape = SubResource( 1 )
+
+[node name="Camera" type="Camera" parent="KinematicBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 7 )
+fov = 75.0
+near = 0.1
+far = 500.0
+
+[node name="MeshInstance" type="MeshInstance" parent="KinematicBody"]
+mesh = SubResource( 4 )
+material/0 = SubResource( 5 )
+
+[node name="StaticBody" type="StaticBody" parent="."]
+
+[node name="MeshInstance" type="MeshInstance" parent="StaticBody"]
+mesh = SubResource( 2 )
+material/0 = SubResource( 8 )
+
+[node name="CollisionShape" type="CollisionShape" parent="StaticBody"]
+shape = SubResource( 3 )
+
+[node name="DirectionalLight" type="DirectionalLight" parent="."]
+transform = Transform( 0.684574, -0.480606, 0.548066, 0, 0.751864, 0.659318, -0.728943, -0.451352, 0.514706, 5.52051, 13.6411, 8.18448 )
+shadow_enabled = true
+directional_shadow_blend_splits = true
+directional_shadow_normal_bias = 0.25
