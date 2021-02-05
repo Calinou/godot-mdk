@@ -3,7 +3,7 @@ extends Spatial
 const MOUSE_SENSITIVITY = 0.002
 const RUN_SPEED = 2
 const JUMP_VELOCITY = 0.24
-const GRAVITY = 32
+const GRAVITY = 34
 
 onready var kinematic_body := $KinematicBody as KinematicBody
 onready var pivot := $Smoothing/Pivot as Spatial
@@ -18,9 +18,9 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	# Apply Doom-style friction.
-	velocity.x *= 0.925
-	velocity.y *= 0.996
-	velocity.z *= 0.925
+	velocity.x *= 1 - 10 * delta
+	velocity.y *= 1 - 0.5 * delta
+	velocity.z *= 1 - 10 * delta
 
 	# Apply movement keys.
 	velocity += (

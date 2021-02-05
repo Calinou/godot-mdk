@@ -17,6 +17,7 @@ config/icon="res://icon.png"
 [autoload]
 
 Sound="*res://autoload/sound.gd"
+MDKData="*res://autoload/mdk_data.gd"
 
 [display]
 
