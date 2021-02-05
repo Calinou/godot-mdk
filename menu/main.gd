@@ -105,9 +105,10 @@ class BinResource:
 #    0-3 - null Padding to a multiple of 4 bytes
 
 
-# Function adapted from <https://github.com/Gianclgar/GDScriptAudioImport/blob/master/GDScriptAudioImport.gd>.
-# Thanks GiancIgar!
+## Loads a WAV stream.
 func parse_wav(bytes: PoolByteArray) -> AudioStreamSample:
+	# Function adapted from <https://github.com/Gianclgar/GDScriptAudioImport/blob/master/GDScriptAudioImport.gd>.
+	# Thanks GiancIgar!
 	#print("========")
 	var new_stream := AudioStreamSample.new()
 
@@ -187,9 +188,9 @@ func parse_wav(bytes: PoolByteArray) -> AudioStreamSample:
 	return new_stream
 
 
-func read_textures() -> void:
+## Loads a MDK `.BNI` file.
+func read_textures(path: String) -> void:
 	var file := File.new()
-	var path := "res://mdk/TRAVERSE/TRAVSPRT.BNI"
 	var err := file.open(path, File.READ)
 	if err != OK:
 		OS.alert("Couldn't open file at path \"%s\" (error code %d)." % [path, err])
@@ -197,9 +198,9 @@ func read_textures() -> void:
 
 
 	var archive_size := file.get_32() + 4
-	print("Archive size: %d" % archive_size)
+	#print("Archive size: %d" % archive_size)
 	var num_files := file.get_32()
-	print("%d files in TRAVSPRT.BNI." % num_files)
+	#print("%d files in TRAVSPRT.BNI." % num_files)
 
 	var resources := []
 	for _idx in num_files:
@@ -219,18 +220,10 @@ func read_textures() -> void:
 		file.seek(resource.offset)
 		byte_arrays[resource.name] = file.get_buffer(resource.length)
 
-	# Try to reverse engineer the image format
-	for i in 100:
-		var num := 0
-		num += byte_arrays["K_IDLE"][i * 2] << 8
-		num += byte_arrays["K_IDLE"][i * 2 + 1]
-		#num += byte_arrays["K_IDLE"][i * 4 + 2] << 8
-		#num += byte_arrays["K_IDLE"][i * 4 + 3]
-		print(num)
-
 	file.close()
 
 
+## Loads a MDK `.SNI` file.
 func read_sounds(path: String) -> void:
 	var file := File.new()
 	var err := file.open(path, File.READ)
@@ -265,14 +258,17 @@ func read_sounds(path: String) -> void:
 
 
 func _ready() -> void:
-	read_textures()
+	read_textures("res://mdk/TRAVERSE/TRAVSPRT.BNI")
 	read_sounds("res://mdk/MISC/MDKSOUND.SNI")
 	read_sounds("res://mdk/FALL3D/FALL3D.SNI")
 	read_sounds("res://mdk/TRAVERSE/TRAVERSE.SNI")
 
+	update_image()
+
+
 	# Level-specific sounds.
-	# Thesesshould be loaded only when playing the level in question,
-	# as file names may conflict for music.
+	# These sshould be loaded only when playing the level in question,
+	# as file names may conflict (especially for music).
 	#read_sounds("res://mdk/TRAVERSE/LEVEL3/LEVEL3O.SNI")
 	#read_sounds("res://mdk/TRAVERSE/LEVEL3/LEVEL3S.SNI")
 	#read_sounds("res://mdk/TRAVERSE/LEVEL4/LEVEL4O.SNI")
@@ -301,11 +297,23 @@ func _on_OPTSONG_pressed() -> void:
 	Sound.play(Sound.Type.NON_POSITIONAL, self, audio_samples["OPTSONG"])
 
 
-#func update_image() -> void:
-#	var img := byte_arrays["K_IDLE"].subarray(slice_start, slice_end) as PoolByteArray
-#	var image := Image.new()
-#	image.create_from_data((slice_end - slice_start) / 128, (slice_end - slice_start) % 128, false, Image.FORMAT_L8, img)
-#
-#	var texture := ImageTexture.new()
-#	texture.create_from_image(image)
-#	$TextureRect.texture = texture
+func update_image() -> void:
+	var name := "SC_STAT"
+	var first_4_bytes := byte_arrays[name].subarray(0, 3) as PoolByteArray
+
+	# Interpret image width and height as 16-bit unsigned integers.
+	# Can't use `<<` here for some reason.
+	var width := first_4_bytes[1] * first_4_bytes[1] + first_4_bytes[0]
+	var height := first_4_bytes[3] * first_4_bytes[3] + first_4_bytes[2]
+	if name == "SKULL":
+		# Workaround since the automatically detected size isn't correct.
+		width = 256
+		height = 256
+
+	var img := byte_arrays[name].subarray(4, -1) as PoolByteArray
+	var image := Image.new()
+	image.create_from_data(width, height, false, Image.FORMAT_L8, img)
+
+	var texture := ImageTexture.new()
+	texture.create_from_image(image)
+	$TextureRect.texture = texture

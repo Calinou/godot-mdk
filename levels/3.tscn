@@ -3,13 +3,13 @@
 [ext_resource path="res://actors/player.gd" type="Script" id=1]
 [ext_resource path="res://addons/smoothing/smoothing.gd" type="Script" id=2]
 
-[sub_resource type="CubeMesh" id=2]
+[sub_resource type="CubeMesh" id=1]
 size = Vector3( 2, 3.2, 2 )
 
-[sub_resource type="SpatialMaterial" id=3]
+[sub_resource type="SpatialMaterial" id=2]
 albedo_color = Color( 1, 0.870588, 0.368627, 1 )
 
-[sub_resource type="BoxShape" id=1]
+[sub_resource type="BoxShape" id=3]
 extents = Vector3( 1, 1.6, 1 )
 
 [sub_resource type="CubeMesh" id=4]
@@ -53,13 +53,13 @@ near = 0.1
 far = 500.0
 
 [node name="MeshInstance" type="MeshInstance" parent="Spatial/Smoothing"]
-mesh = SubResource( 2 )
-material/0 = SubResource( 3 )
+mesh = SubResource( 1 )
+material/0 = SubResource( 2 )
 
 [node name="KinematicBody" type="KinematicBody" parent="Spatial"]
 
 [node name="CollisionShape" type="CollisionShape" parent="Spatial/KinematicBody"]
-shape = SubResource( 1 )
+shape = SubResource( 3 )
 
 [node name="RayCast" type="RayCast" parent="Spatial/KinematicBody"]
 enabled = true

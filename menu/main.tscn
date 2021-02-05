@@ -50,6 +50,7 @@ __meta__ = {
 [node name="TextureRect" type="TextureRect" parent="."]
 margin_right = 40.0
 margin_bottom = 40.0
+rect_scale = Vector2( 2, 2 )
 
 [connection signal="pressed" from="VBoxContainer/OPTBUTT" to="." method="_on_OPTBUTT_pressed"]
 [connection signal="pressed" from="VBoxContainer/SNDTEST" to="." method="_on_SNDTEST_pressed"]
