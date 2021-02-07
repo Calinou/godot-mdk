@@ -285,3 +285,21 @@ func _ready() -> void:
 	#read_sounds("res://mdk/TRAVERSE/LEVEL7/LEVEL7S.SNI")
 	#read_sounds("res://mdk/TRAVERSE/LEVEL8/LEVEL8O.SNI")
 	#read_sounds("res://mdk/TRAVERSE/LEVEL8/LEVEL8S.SNI")
+
+## Saves a PoolByteArray to disk for debugging purposes.
+func save_bytes_to_disk(byte_name: String) -> void:
+	assert(byte_name in byte_arrays, '"%s" is not in the list of MDK byte arrays.' % byte_name)
+
+	var file := File.new()
+	file.open("user://%s.bin" % byte_name, File.WRITE)
+	file.store_buffer(MDKData.byte_arrays[byte_name])
+	file.close()
+	print('MDKData: Saved byte array %s to "user://%s.bin".' % [byte_name, byte_name])
+
+
+## Saves an audio sample to a WAV file for debugging purposes.
+func save_sample_to_disk(sample_name: String) -> void:
+	assert(sample_name in audio_samples, '"%s" is not in the list of MDK sound sample_names.' % sample_name)
+
+	audio_samples[sample_name].save_to_wav("user://%s.wav" % sample_name)
+	print('MDKData: Saved audio sample %s to "user://%s.wav".' % [sample_name, sample_name])
