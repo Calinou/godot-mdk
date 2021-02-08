@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://menu/theme.tres" type="Theme" id=1]
 [ext_resource path="res://menu/options.gd" type="Script" id=2]
+[ext_resource path="res://menu/nodes/mdk_button.gd" type="Script" id=3]
 
 [node name="Options" type="Control" groups=[
 "menu",
@@ -32,6 +33,7 @@ margin_right = 537.0
 margin_bottom = 20.0
 disabled = true
 text = "Sound"
+script = ExtResource( 3 )
 
 [node name="Controls" type="Button" parent="VBoxContainer"]
 margin_top = 35.0
@@ -39,12 +41,14 @@ margin_right = 537.0
 margin_bottom = 55.0
 disabled = true
 text = "Controls"
+script = ExtResource( 3 )
 
 [node name="Skill" type="Button" parent="VBoxContainer"]
 margin_top = 70.0
 margin_right = 537.0
 margin_bottom = 90.0
 text = "Skill - Normal"
+script = ExtResource( 3 )
 
 [node name="Display" type="Button" parent="VBoxContainer"]
 margin_top = 105.0
@@ -52,12 +56,14 @@ margin_right = 537.0
 margin_bottom = 125.0
 disabled = true
 text = "Display"
+script = ExtResource( 3 )
 
 [node name="Back" type="Button" parent="VBoxContainer"]
 margin_top = 140.0
 margin_right = 537.0
 margin_bottom = 160.0
 text = "«    Back"
+script = ExtResource( 3 )
 
 [connection signal="pressed" from="VBoxContainer/Sound" to="." method="_on_Sound_pressed"]
 [connection signal="pressed" from="VBoxContainer/Controls" to="." method="_on_Controls_pressed"]

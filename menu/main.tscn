@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://menu/main.gd" type="Script" id=1]
 [ext_resource path="res://menu/theme.tres" type="Theme" id=2]
+[ext_resource path="res://menu/nodes/mdk_button.gd" type="Script" id=3]
 
 [node name="Main" type="Control" groups=[
 "menu",
@@ -31,6 +32,7 @@ __meta__ = {
 margin_right = 359.0
 margin_bottom = 20.0
 text = "New Game"
+script = ExtResource( 3 )
 
 [node name="LoadGame" type="Button" parent="VBoxContainer"]
 margin_top = 35.0
@@ -38,24 +40,21 @@ margin_right = 359.0
 margin_bottom = 55.0
 disabled = true
 text = "Load Game"
+script = ExtResource( 3 )
 
 [node name="Options" type="Button" parent="VBoxContainer"]
 margin_top = 70.0
 margin_right = 359.0
 margin_bottom = 90.0
 text = "Options"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource( 3 )
 
 [node name="Quit" type="Button" parent="VBoxContainer"]
 margin_top = 105.0
 margin_right = 359.0
 margin_bottom = 125.0
 text = "Quit"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource( 3 )
 
 [connection signal="pressed" from="VBoxContainer/NewGame" to="." method="_on_NewGame_pressed"]
 [connection signal="pressed" from="VBoxContainer/LoadGame" to="." method="_on_LoadGame_pressed"]
