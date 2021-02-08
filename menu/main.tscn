@@ -1,10 +1,14 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://menu/main.gd" type="Script" id=1]
+[ext_resource path="res://menu/theme.tres" type="Theme" id=2]
 
-[node name="Control" type="Control"]
+[node name="Main" type="Control" groups=[
+"menu",
+]]
 anchor_right = 1.0
 anchor_bottom = 1.0
+theme = ExtResource( 2 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -15,43 +19,45 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -99.0
-margin_top = -40.0
-margin_right = 99.0
-margin_bottom = 40.0
-custom_constants/separation = 10
+margin_left = -179.5
+margin_top = -62.5
+margin_right = 179.5
+margin_bottom = 62.5
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="OPTBUTT" type="Button" parent="VBoxContainer"]
-margin_right = 198.0
+[node name="NewGame" type="Button" parent="VBoxContainer"]
+margin_right = 359.0
 margin_bottom = 20.0
-text = "Play OPTBUTT"
+text = "New Game"
+
+[node name="LoadGame" type="Button" parent="VBoxContainer"]
+margin_top = 35.0
+margin_right = 359.0
+margin_bottom = 55.0
+disabled = true
+text = "Load Game"
+
+[node name="Options" type="Button" parent="VBoxContainer"]
+margin_top = 70.0
+margin_right = 359.0
+margin_bottom = 90.0
+text = "Options"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="SNDTEST" type="Button" parent="VBoxContainer"]
-margin_top = 30.0
-margin_right = 198.0
-margin_bottom = 50.0
-text = "Play SNDTEST"
-
-[node name="OPTSONG" type="Button" parent="VBoxContainer"]
-margin_top = 60.0
-margin_right = 198.0
-margin_bottom = 80.0
-text = "Play OPTSONG (loud, broken)"
+[node name="Quit" type="Button" parent="VBoxContainer"]
+margin_top = 105.0
+margin_right = 359.0
+margin_bottom = 125.0
+text = "Quit"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TextureRect" type="TextureRect" parent="."]
-margin_right = 40.0
-margin_bottom = 40.0
-rect_scale = Vector2( 2, 2 )
-
-[connection signal="pressed" from="VBoxContainer/OPTBUTT" to="." method="_on_OPTBUTT_pressed"]
-[connection signal="pressed" from="VBoxContainer/SNDTEST" to="." method="_on_SNDTEST_pressed"]
-[connection signal="pressed" from="VBoxContainer/OPTSONG" to="." method="_on_OPTSONG_pressed"]
+[connection signal="pressed" from="VBoxContainer/NewGame" to="." method="_on_NewGame_pressed"]
+[connection signal="pressed" from="VBoxContainer/LoadGame" to="." method="_on_LoadGame_pressed"]
+[connection signal="pressed" from="VBoxContainer/Options" to="." method="_on_Options_pressed"]
+[connection signal="pressed" from="VBoxContainer/Quit" to="." method="_on_Quit_pressed"]
