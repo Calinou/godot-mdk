@@ -38,6 +38,7 @@ func _process(delta: float) -> void:
 	if not raycast.is_colliding():
 		velocity.y -= GRAVITY * delta
 
+	# warning-ignore:return_value_discarded
 	kinematic_body.move_and_slide(velocity)
 
 

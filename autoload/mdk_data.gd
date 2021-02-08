@@ -211,8 +211,8 @@ func parse_wav(bytes: PoolByteArray) -> AudioStreamSample:
 			#print("fmt OK at bytes %d-%d" % [i, i + 3])
 
 			# Get format subchunk size, 4 bytes next to "fmt " are an int32.
-			var format_subchunk_size = bytes[i + 4] + (bytes[i + 5] << 8) + (bytes[i + 6] << 16) + (bytes[i + 7] << 24)
-			#print("Format subchunk size: %d" % format_subchunk_size)
+			var _format_subchunk_size = bytes[i + 4] + (bytes[i + 5] << 8) + (bytes[i + 6] << 16) + (bytes[i + 7] << 24)
+			#print("Format subchunk size: %d" % _format_subchunk_size)
 
 			# Using format_subchunk index so it's easier to understand what's going on.
 			# `fsc0` is byte 8 after start of "fmt ".
@@ -220,14 +220,14 @@ func parse_wav(bytes: PoolByteArray) -> AudioStreamSample:
 
 			# Get format code [Bytes 0-1].
 			var format_code := bytes[fsc0] + (bytes[fsc0 + 1] << 8)
-			var format_name := ""
+			var _format_name := ""
 			if format_code == 0:
-				format_name = "8_BITS"
+				_format_name = "8_BITS"
 			elif format_code == 1:
-				format_name = "16_BITS"
+				_format_name = "16_BITS"
 			elif format_code == 2:
-				format_name = "IMA_ADPCM"
-			#print("Format: %d (%s)" % [format_code, format_name])
+				_format_name = "IMA_ADPCM"
+			#print("Format: %d (%s)" % [format_code, _format_name])
 			new_stream.format = format_code
 
 			# Get channel num [Bytes 2-3].
@@ -243,15 +243,15 @@ func parse_wav(bytes: PoolByteArray) -> AudioStreamSample:
 			new_stream.mix_rate = sample_rate
 
 			# Get byte_rate [Bytes 8-11] because we can.
-			var byte_rate := bytes[fsc0 + 8] + (bytes[fsc0 + 9] << 8) + (bytes[fsc0 + 10] << 16) + (bytes[fsc0 + 11] << 24)
-			#print("Byte rate: %d" % byte_rate)
+			var _byte_rate := bytes[fsc0 + 8] + (bytes[fsc0 + 9] << 8) + (bytes[fsc0 + 10] << 16) + (bytes[fsc0 + 11] << 24)
+			#print("Byte rate: %d" % _byte_rate)
 
 			# Same with bits*sample*channel [Bytes 12-13].
-			var bits_sample_channel := bytes[fsc0 + 12] + (bytes[fsc0 + 13] << 8)
-			#print("BitsPerSample * Channel / 8: %d" % bits_sample_channel)
+			var _bits_sample_channel := bytes[fsc0 + 12] + (bytes[fsc0 + 13] << 8)
+			#print("BitsPerSample * Channel / 8: %d" % _bits_sample_channel)
 			# Bits per sample [Bytes 14-15].
-			var bits_per_sample := bytes[fsc0 + 14] + (bytes[fsc0 + 15] << 8)
-			#print("Bits per sample: %d" % bits_per_sample)
+			var _bits_per_sample := bytes[fsc0 + 14] + (bytes[fsc0 + 15] << 8)
+			#print("Bits per sample: %d" % _bits_per_sample)
 
 		if those4bytes == "data":
 			var audio_data_size := bytes[i + 4] + (bytes[i + 5] << 8) + (bytes[i + 6] << 16) + (bytes[i + 7] << 24)
@@ -315,8 +315,8 @@ func read_sounds(path: String) -> void:
 		OS.alert("Couldn't open file at path \"%s\" (error code %d)." % [path, err])
 		get_tree().quit(1)
 
-	var archive_size := file.get_32() + 4
-	#print("Archive size: %d" % archive_size)
+	var _archive_size := file.get_32() + 4
+	#print("Archive size: %d" % _archive_size)
 	# Skip archive name and second archive size as we don't need them.
 	file.seek(file.get_position() + 12 + 4)
 
@@ -373,6 +373,7 @@ func save_bytes_to_disk(byte_name: String) -> void:
 	assert(byte_name in byte_arrays, '"%s" is not in the list of MDK byte arrays.' % byte_name)
 
 	var file := File.new()
+	# warning-ignore:return_value_discarded
 	file.open("user://%s.bin" % byte_name, File.WRITE)
 	file.store_buffer(MDKData.byte_arrays[byte_name])
 	file.close()
