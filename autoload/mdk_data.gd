@@ -86,6 +86,9 @@ const COLOR_PALETTE := [
 ## Holds texture data. Key is the resource name, value is a PoolByteArray.
 var byte_arrays := {}
 
+## Key is the texture name, value is an ImageTexture.
+var image_textures := {}
+
 ## Key is the sample name, value is an AudioStreamSample.
 var audio_samples := {}
 
@@ -272,6 +275,45 @@ func parse_wav(bytes: PoolByteArray) -> AudioStreamSample:
 	return new_stream
 
 
+## Converts a MDK byte array to an ImageTexture.
+func parse_texture(p_name: String, bytes: PoolByteArray) -> ImageTexture:
+	print(p_name)
+	var first_4_bytes := bytes.subarray(0, 3) as PoolByteArray
+
+	# Interpret image width and height as 16-bit unsigned integers.
+	# Can't use `<<` here for some reason.
+	var width := first_4_bytes[1] * first_4_bytes[1] + first_4_bytes[0]
+	var height := first_4_bytes[3] * first_4_bytes[3] + first_4_bytes[2]
+	if p_name == "SKULL":
+		# Workaround since the automatically detected size isn't correct.
+		width = 256
+		height = 256
+
+	var image_data := bytes.subarray(4, -1) as PoolByteArray
+	var image := Image.new()
+	# Create image in L8 then convert it to RGBA. This way, we can apply our own
+	# palette conversion more easily.
+	image.create_from_data(width, height, false, Image.FORMAT_L8, image_data)
+	image.convert(Image.FORMAT_RGBA8)
+
+	image.lock()
+
+	for y in image.get_height():
+		for x in image.get_width():
+			for index in MDKData.COLOR_PALETTE.size():
+				if image.get_pixel(x, y) == Color8(index, index, index):
+					image.set_pixel(x, y, MDKData.COLOR_PALETTE[index])
+
+	image.unlock()
+
+	var texture := ImageTexture.new()
+	texture.create_from_image(image)
+	# Disable filter and mipmaps for a "pixel art" appearance.
+	texture.flags = 0
+
+	return texture
+
+
 ## Loads a MDK `.BNI` file.
 func read_textures(path: String) -> void:
 	var file := File.new()
@@ -302,7 +344,9 @@ func read_textures(path: String) -> void:
 
 	for resource in resources:
 		file.seek(resource.offset)
-		byte_arrays[resource.name] = file.get_buffer(resource.length)
+		var bytes := file.get_buffer(resource.length)
+		byte_arrays[resource.name] = bytes
+		image_textures[resource.name] = parse_texture(resource.name, bytes)
 
 	file.close()
 
