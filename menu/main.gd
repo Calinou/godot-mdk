@@ -14,12 +14,27 @@ func _ready() -> void:
 		width = 256
 		height = 256
 
-	var img := MDKData.byte_arrays[name].subarray(4, -1) as PoolByteArray
+	var image_data := MDKData.byte_arrays[name].subarray(4, -1) as PoolByteArray
 	var image := Image.new()
-	image.create_from_data(width, height, false, Image.FORMAT_L8, img)
+	# Create image in L8 then convert it to RGBA. This way, we can apply our own
+	# palette conversion more easily.
+	image.create_from_data(width, height, false, Image.FORMAT_L8, image_data)
+	image.convert(Image.FORMAT_RGBA8)
+
+	image.lock()
+
+	for y in image.get_height():
+		for x in image.get_width():
+			for index in MDKData.COLOR_PALETTE.size():
+				if image.get_pixel(x, y) == Color8(index, index, index):
+					image.set_pixel(x, y, MDKData.COLOR_PALETTE[index])
+
+	image.unlock()
 
 	var texture := ImageTexture.new()
 	texture.create_from_image(image)
+	# Disable filter and mipmaps for a "pixel art" appearance.
+	texture.flags = 0
 	$TextureRect.texture = texture
 
 

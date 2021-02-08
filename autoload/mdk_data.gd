@@ -1,6 +1,88 @@
 ## Reads texture and sound data from the MDK data files.
 extends Node
 
+## The MDK sprite color palette (manually reverse engineered from screenshots).
+## Colors with a `#` comment aren't determined yet.
+const COLOR_PALETTE := [
+	Color8(0, 0, 0, 0),
+	Color8(255, 0, 0), #
+	Color8(255, 0, 0), #
+	Color8(0, 255, 0),
+	Color8(0, 150, 0),
+	Color8(0, 97, 0),
+	Color8(255, 0, 0), #
+	Color8(255, 0, 0), #
+	Color8(255, 0, 0), #
+	Color8(0, 89, 90),
+	Color8(255, 0, 0), #
+	Color8(255, 0, 0), #
+	Color8(255, 0, 0), #
+	Color8(255, 0, 0), #
+	Color8(255, 0, 0), #
+	Color8(255, 0, 0), #
+	Color8(0, 0, 0),
+	Color8(255, 0, 0), #
+	Color8(255, 255, 206),
+	Color8(255, 235, 165),
+	Color8(231, 207, 148),
+	Color8(181, 186, 148),
+	Color8(173, 166, 156),
+	Color8(165, 158, 140),
+	Color8(156, 150, 132),
+	Color8(140, 142, 132),
+	Color8(140, 150, 148),
+	Color8(132, 134, 115),
+	Color8(123, 121, 107),
+	Color8(107, 113, 107),
+	Color8(90, 89, 90),
+	Color8(90, 81, 74),
+	Color8(82, 73, 57),
+	Color8(66, 65, 66),
+	Color8(49, 48, 49),
+	Color8(41, 40, 33),
+	Color8(24, 24, 24),
+	Color8(16, 8, 8),
+	Color8(66, 48, 24),
+	Color8(90, 40, 16),
+	Color8(123, 56, 24),
+	Color8(123, 73, 33),
+	Color8(140, 89, 49),
+	Color8(123, 105, 74),
+	Color8(132, 113, 90),
+	Color8(173, 121, 82),
+	Color8(181, 142, 99),
+	Color8(206, 166, 123),
+	Color8(8, 0, 0),
+	Color8(33, 0, 0),
+	Color8(66, 8, 0),
+	Color8(90, 24, 0),
+	Color8(115, 36, 0),
+	Color8(140, 52, 0),
+	Color8(165, 69, 0),
+	Color8(189, 93, 0),
+	Color8(198, 121, 16),
+	Color8(214, 154, 24),
+	Color8(231, 190, 41),
+	Color8(239, 223, 57),
+	Color8(255, 255, 74),
+	Color8(255, 255, 132),
+	Color8(255, 255, 198),
+	Color8(255, 0, 0), #
+	Color8(255, 0, 0), #
+	Color8(255, 0, 0), #
+	Color8(255, 0, 0), #
+	Color8(255, 0, 0), #
+	Color8(255, 0, 0), #
+	Color8(255, 0, 0), #
+	Color8(255, 0, 0), #
+	Color8(255, 0, 0), #
+	Color8(255, 0, 0), #
+	Color8(255, 0, 0), #
+	Color8(255, 0, 0), #
+	Color8(255, 0, 0), #
+	# ...this is all we need for `SC_STAT` so far.
+]
+
 ## Holds texture data. Key is the resource name, value is a PoolByteArray.
 var byte_arrays := {}
 
