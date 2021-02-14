@@ -277,7 +277,6 @@ func parse_wav(bytes: PoolByteArray) -> AudioStreamSample:
 
 ## Converts a MDK byte array to an ImageTexture.
 func parse_texture(p_name: String, bytes: PoolByteArray) -> ImageTexture:
-	print(p_name)
 	var first_4_bytes := bytes.subarray(0, 3) as PoolByteArray
 
 	# Interpret image width and height as 16-bit unsigned integers.
@@ -426,7 +425,7 @@ func save_bytes_to_disk(byte_name: String) -> void:
 
 ## Saves an audio sample to a WAV file for debugging purposes.
 func save_sample_to_disk(sample_name: String) -> void:
-	assert(sample_name in audio_samples, '"%s" is not in the list of MDK sound sample_names.' % sample_name)
+	assert(sample_name in audio_samples, '"%s" is not in the list of MDK audio samples.' % sample_name)
 
 	audio_samples[sample_name].save_to_wav("user://%s.wav" % sample_name)
 	print('MDKData: Saved audio sample %s to "user://%s.wav".' % [sample_name, sample_name])

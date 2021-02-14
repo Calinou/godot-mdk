@@ -43,7 +43,9 @@ disabled = true
 text = "Controls"
 script = ExtResource( 3 )
 
-[node name="Skill" type="Button" parent="VBoxContainer"]
+[node name="Skill" type="Button" parent="VBoxContainer" groups=[
+"autofocus",
+]]
 margin_top = 70.0
 margin_right = 537.0
 margin_bottom = 90.0

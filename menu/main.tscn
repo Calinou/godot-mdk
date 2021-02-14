@@ -28,7 +28,9 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="NewGame" type="Button" parent="VBoxContainer"]
+[node name="NewGame" type="Button" parent="VBoxContainer" groups=[
+"autofocus",
+]]
 margin_right = 359.0
 margin_bottom = 20.0
 text = "New Game"

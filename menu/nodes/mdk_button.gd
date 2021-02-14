@@ -3,5 +3,6 @@ extends Button
 class_name MDKButton
 
 
+## Called when the button is pressed.
 func _pressed():
 	Sound.play(Sound.Type.NON_POSITIONAL, self, MDKData.audio_samples["OPTBUTT"])
