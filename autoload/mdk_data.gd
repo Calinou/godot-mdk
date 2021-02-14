@@ -1,3 +1,5 @@
+# Copyright © 2021 Hugo Locurcio and contributors - MIT License
+# See `LICENSE.md` included in the source distribution for details.
 ## Reads texture and sound data from the MDK data files.
 extends Node
 

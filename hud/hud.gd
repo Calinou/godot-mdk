@@ -1,5 +1,6 @@
+# Copyright © 2021 Hugo Locurcio and contributors - MIT License
+# See `LICENSE.md` included in the source distribution for details.
 extends Control
-
 
 onready var vitals := $Vitals as TextureRect
 onready var people_dead := $Vitals/PeopleDead as TextureProgress

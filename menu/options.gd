@@ -1,3 +1,5 @@
+# Copyright © 2021 Hugo Locurcio and contributors - MIT License
+# See `LICENSE.md` included in the source distribution for details.
 extends Control
 
 signal back_pressed
