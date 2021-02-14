@@ -16,3 +16,7 @@ var SKILL_NAMES := [
 
 ## The current skill level.
 var skill: int = Skill.MEDIUM
+
+
+func _ready() -> void:
+	skill = Settings.file.get_value("game", "skill", Skill.MEDIUM)
