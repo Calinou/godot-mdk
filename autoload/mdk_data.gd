@@ -4,26 +4,26 @@
 extends Node
 
 ## The MDK sprite color palette (manually reverse engineered from screenshots).
-## Colors with a `#` comment aren't determined yet.
+## Colors with a `# TODO` comment aren't determined yet.
 const COLOR_PALETTE := [
-	Color8(0, 0, 0, 0),
-	Color8(255, 0, 0), #
-	Color8(255, 0, 0), #
+	Color8(0, 0, 0, 0),  # Transparent
+	Color8(255, 255, 255),
+	Color8(0, 255, 255),  # TODO
 	Color8(0, 255, 0),
 	Color8(0, 150, 0),
 	Color8(0, 97, 0),
-	Color8(255, 0, 0), #
-	Color8(255, 0, 0), #
-	Color8(255, 0, 0), #
+	Color8(0, 255, 255),  # TODO
+	Color8(0, 255, 255),  # TODO
+	Color8(0, 255, 255),  # TODO
 	Color8(0, 89, 90),
-	Color8(255, 0, 0), #
-	Color8(255, 0, 0), #
-	Color8(255, 0, 0), #
-	Color8(255, 0, 0), #
-	Color8(255, 0, 0), #
-	Color8(255, 0, 0), #
+	Color8(0, 255, 255),  # TODO
+	Color8(255, 0, 0),
+	Color8(140, 0, 0),
+	Color8(0, 255, 255),  # TODO
+	Color8(0, 255, 255),  # TODO
+	Color8(0, 255, 255),  # TODO
 	Color8(0, 0, 0),
-	Color8(255, 0, 0), #
+	Color8(0, 255, 255),  # TODO
 	Color8(255, 255, 206),
 	Color8(255, 235, 165),
 	Color8(231, 207, 148),
@@ -69,20 +69,20 @@ const COLOR_PALETTE := [
 	Color8(255, 255, 74),
 	Color8(255, 255, 132),
 	Color8(255, 255, 198),
-	Color8(255, 0, 0), #
-	Color8(255, 0, 0), #
-	Color8(255, 0, 0), #
-	Color8(255, 0, 0), #
-	Color8(255, 0, 0), #
-	Color8(255, 0, 0), #
-	Color8(255, 0, 0), #
-	Color8(255, 0, 0), #
-	Color8(255, 0, 0), #
-	Color8(255, 0, 0), #
-	Color8(255, 0, 0), #
-	Color8(255, 0, 0), #
-	Color8(255, 0, 0), #
-	# ...this is all we need for `SC_STAT` so far.
+	Color8(0, 255, 255),  # TODO
+	Color8(0, 255, 255),  # TODO
+	Color8(0, 255, 255),  # TODO
+	Color8(0, 255, 255),  # TODO
+	Color8(0, 255, 255),  # TODO
+	Color8(0, 255, 255),  # TODO
+	Color8(0, 255, 255),  # TODO
+	Color8(0, 255, 255),  # TODO
+	Color8(0, 255, 255),  # TODO
+	Color8(0, 255, 255),  # TODO
+	Color8(0, 255, 255),  # TODO
+	Color8(0, 255, 255),  # TODO
+	Color8(0, 255, 255),  # TODO
+	# ...this is all we need for `SC_STAT` and `SKULL` so far.
 ]
 
 ## Holds texture data. Key is the resource name, value is a PoolByteArray.
