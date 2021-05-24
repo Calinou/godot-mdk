@@ -94,6 +94,9 @@ var image_textures := {}
 ## Key is the sample name, value is an AudioStreamSample.
 var audio_samples := {}
 
+## The path to the MDK installation folder.
+var data_dir := ""
+
 ## Represents a binary resource in one of the MDK archive files.
 class BinResource:
 	## The resource's name (case-sensitive).
@@ -318,9 +321,9 @@ func parse_texture(p_name: String, bytes: PoolByteArray) -> ImageTexture:
 ## Loads a MDK `.BNI` file.
 func read_textures(path: String) -> void:
 	var file := File.new()
-	var err := file.open(path, File.READ)
+	var err := file.open(data_dir.plus_file(path), File.READ)
 	if err != OK:
-		OS.alert("Couldn't open file at path \"%s\" (error code %d)." % [path, err])
+		OS.alert("Couldn't open file at path \"%s\" (error code %d)." % [data_dir.plus_file(path), err])
 		get_tree().quit(1)
 
 
@@ -355,9 +358,9 @@ func read_textures(path: String) -> void:
 ## Loads a MDK `.SNI` file.
 func read_sounds(path: String) -> void:
 	var file := File.new()
-	var err := file.open(path, File.READ)
+	var err := file.open(data_dir.plus_file(path), File.READ)
 	if err != OK:
-		OS.alert("Couldn't open file at path \"%s\" (error code %d)." % [path, err])
+		OS.alert("Couldn't open file at path \"%s\" (error code %d)." % [data_dir.plus_file(path), err])
 		get_tree().quit(1)
 
 	var _archive_size := file.get_32() + 4
@@ -387,31 +390,57 @@ func read_sounds(path: String) -> void:
 
 
 func _ready() -> void:
-	read_textures("res://mdk/TRAVERSE/TRAVSPRT.BNI")
+	var directory := Directory.new()
+	# Try various directories to sidestep case sensitivity issues
+	# and allow using the GOG version out of the box.
+	# Prefer the most "local" directories first for easier development.
+	var try_dirs := [
+		# Local (for development purposes).
+		"res://MDK",
+		"res://Mdk",
+		"res://mdk",
+		# Windows GOG path.
+		"C:/GOG Games/MDK",
+		# Windows GOG path (via WINE).
+		OS.get_environment("HOME").plus_file(".wine/drive_c/GOG Games/MDK"),
+	]
+	for try_dir in try_dirs:
+		print("Trying path: %s" % ProjectSettings.globalize_path(try_dir))
+		if directory.dir_exists(try_dir):
+			data_dir = try_dir
+			break
 
-	read_sounds("res://mdk/MISC/MDKSOUND.SNI")
-	read_sounds("res://mdk/TRAVERSE/TRAVERSE.SNI")
+	if not data_dir.empty():
+		print("Using MDK installation folder: %s" % ProjectSettings.globalize_path(data_dir))
+	else:
+		OS.alert("Couldn't find a MDK installation folder! You need the full version of MDK from GOG or Steam to play.\nIt can be installed in the default location or copied in the Godot project folder as \"mdk\".")
+		get_tree().quit(1)
+
+	read_textures("TRAVERSE/TRAVSPRT.BNI")
+
+	read_sounds("MISC/MDKSOUND.SNI")
+	read_sounds("TRAVERSE/TRAVERSE.SNI")
 
 	# Stage-specific sounds.
-	#read_sounds("res://mdk/FALL3D/FALL3D.SNI")
+	#read_sounds("FALL3D/FALL3D.SNI")
 
 	# Level-specific sounds.
 	# These should be loaded only when playing the level in question
 	# as file names may conflict (especially for music).
-	#read_sounds("res://mdk/TRAVERSE/LEVEL3/LEVEL3O.SNI")
-	#read_sounds("res://mdk/TRAVERSE/LEVEL3/LEVEL3S.SNI")
-	#read_sounds("res://mdk/TRAVERSE/LEVEL4/LEVEL4O.SNI")
+	#read_sounds("TRAVERSE/LEVEL3/LEVEL3O.SNI")
+	#read_sounds("TRAVERSE/LEVEL3/LEVEL3S.SNI")
+	#read_sounds("TRAVERSE/LEVEL4/LEVEL4O.SNI")
 	# FIXME: `LEVEL4S.SNI` fails to load.
-	#read_sounds("res://mdk/TRAVERSE/LEVEL4/LEVEL4S.SNI")
-	#read_sounds("res://mdk/TRAVERSE/LEVEL5/LEVEL5O.SNI")
-	#read_sounds("res://mdk/TRAVERSE/LEVEL5/LEVEL5S.SNI")
+	#read_sounds("TRAVERSE/LEVEL4/LEVEL4S.SNI")
+	#read_sounds("TRAVERSE/LEVEL5/LEVEL5O.SNI")
+	#read_sounds("TRAVERSE/LEVEL5/LEVEL5S.SNI")
 	# FIXME: `LEVEL6S.SNI` fails to load.
-	#read_sounds("res://mdk/TRAVERSE/LEVEL6/LEVEL6S.SNI")
-	#read_sounds("res://mdk/TRAVERSE/LEVEL6/LEVEL6O.SNI")
-	#read_sounds("res://mdk/TRAVERSE/LEVEL7/LEVEL7O.SNI")
-	#read_sounds("res://mdk/TRAVERSE/LEVEL7/LEVEL7S.SNI")
-	#read_sounds("res://mdk/TRAVERSE/LEVEL8/LEVEL8O.SNI")
-	#read_sounds("res://mdk/TRAVERSE/LEVEL8/LEVEL8S.SNI")
+	#read_sounds("TRAVERSE/LEVEL6/LEVEL6S.SNI")
+	#read_sounds("TRAVERSE/LEVEL6/LEVEL6O.SNI")
+	#read_sounds("TRAVERSE/LEVEL7/LEVEL7O.SNI")
+	#read_sounds("TRAVERSE/LEVEL7/LEVEL7S.SNI")
+	#read_sounds("TRAVERSE/LEVEL8/LEVEL8O.SNI")
+	#read_sounds("TRAVERSE/LEVEL8/LEVEL8S.SNI")
 
 ## Saves a PoolByteArray to disk for debugging purposes.
 func save_bytes_to_disk(byte_name: String) -> void:

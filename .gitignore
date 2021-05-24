@@ -9,4 +9,7 @@
 data_*/
 
 # MDK game data (not legally redistributable)
+# Allow common casings in use, the code handles all of them
 /mdk/
+/MDK/
+/Mdk/
