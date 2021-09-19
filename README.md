@@ -22,6 +22,10 @@ ___
 
 ## Running the project
 
+This project is currently being developed with
+[Godot 3.4beta4](https://godotengine.org/article/dev-snapshot-godot-3-4-beta-4),
+but it should open fine in 3.3.3 too.
+
 Running the project **requires** game data from a MDK installation.
 You can buy the original game on [GOG](https://www.gog.com/game/mdk)
 or [Steam](https://store.steampowered.com/app/38450/MDK/).
