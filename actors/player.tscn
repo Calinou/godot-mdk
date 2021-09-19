@@ -38,7 +38,23 @@ material/0 = SubResource( 2 )
 [node name="CollisionShape" type="CollisionShape" parent="KinematicBody"]
 shape = SubResource( 3 )
 
-[node name="RayCast" type="RayCast" parent="KinematicBody"]
+[node name="RayCastNW" type="RayCast" parent="KinematicBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -1 )
+enabled = true
+cast_to = Vector3( 0, -1.7, 0 )
+
+[node name="RayCastNE" type="RayCast" parent="KinematicBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1 )
+enabled = true
+cast_to = Vector3( 0, -1.7, 0 )
+
+[node name="RayCastSW" type="RayCast" parent="KinematicBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -1 )
+enabled = true
+cast_to = Vector3( 0, -1.7, 0 )
+
+[node name="RayCastSE" type="RayCast" parent="KinematicBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 1 )
 enabled = true
 cast_to = Vector3( 0, -1.7, 0 )
 
