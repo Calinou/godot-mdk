@@ -1,6 +1,6 @@
 # Open source reimplementation of MDK in Godot
 
-This project aims to reimplement [MDK](https://en.wikipedia.org/wiki/MDK_(video_game)
+This project aims to reimplement [MDK](https://en.wikipedia.org/wiki/MDK_(video_game))
 using [Godot Engine](https://godotengine.org/). **It is not in a playable state yet.**
 
 This is being developed as a personal project for several reasons:
