@@ -31,6 +31,12 @@ You can buy the original game on [GOG](https://www.gog.com/game/mdk)
 or [Steam](https://store.steampowered.com/app/38450/MDK/).
 *Waiting for a sale?* Set up an email alert using [IsThereAnyIdeal](https://isthereanydeal.com/game/mdk/info/).
 
+godot-mdk will automatically detect the GOG installation folder if it's installed
+at the default location (on both Windows and Linux when installed using WINE).
+Auto-detection of the Steam folder hasn't been implemented yet.
+Alternatively, you can copy the MDK data files to a folder called
+`mdk` or `MDK` within this project folder.
+
 Several file formats from the game have been reverse engineered for interoperability
 purposes. This allows the game to run without having to convert game data manually
 (and without redistributing it within this repository).
