@@ -13,6 +13,7 @@ func _ready() -> void:
 	pause_mode = Node.PAUSE_MODE_PROCESS
 
 	# Loads existing configuration (if any) for use anywhere.
+	# warning-ignore:return_value_discarded
 	file.load(CONFIG_PATH)
 
 	OS.window_fullscreen = bool(file.get_value("video", "fullscreen", false))
