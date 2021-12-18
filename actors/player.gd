@@ -71,8 +71,8 @@ func _process(delta: float) -> void:
 
 		if hitscan_raycast.is_colliding():
 			var bullet := preload("res://actors/player_bullet.tscn").instance()
-			bullet.global_transform.origin = hitscan_raycast.get_collision_point()
 			get_parent().add_child(bullet)
+			bullet.global_transform.origin = hitscan_raycast.get_collision_point()
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
