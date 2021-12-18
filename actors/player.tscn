@@ -29,6 +29,10 @@ fov = 75.0
 near = 0.1
 far = 500.0
 
+[node name="HitscanRayCast" type="RayCast" parent="Smoothing/Pivot"]
+enabled = true
+cast_to = Vector3( 0, 0, -200 )
+
 [node name="MeshInstance" type="MeshInstance" parent="Smoothing"]
 mesh = SubResource( 1 )
 material/0 = SubResource( 2 )
